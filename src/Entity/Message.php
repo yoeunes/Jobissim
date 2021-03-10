@@ -6,6 +6,8 @@ use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MessageRepository;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -24,22 +26,32 @@ class Message
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messagefrom")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @SerializedName("sender")
+     * @Groups({"public"})
      */
     private $from_id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messageto")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @SerializedName("receiver")
+     * @Groups({"public"})
      */
     private $to_id;
 
     /**
      * @ORM\Column(type="text")
+     *
+     * @Groups({"public"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Groups({"public"})
      */
     private $createdAt;
 

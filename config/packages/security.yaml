@@ -40,6 +40,8 @@ security:
         - { path: ^/message, roles: ROLE_USER }
         - { path: ^/paiement, roles: ROLE_USER }
         - { path: ^/commande, roles: ROLE_USER }
+        - { path: ^/users, roles: ROLE_USER }
+        - { path: ^/discussion, roles: ROLE_USER }
         - { path: ^/formation/\d+/candidature, roles: ROLE_USER }
         - { path: ^/formation/\d+/evaluer, roles: ROLE_USER }
         - { path: ^/new-cvtheque, roles: ROLE_USER }
