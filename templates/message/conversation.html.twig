@@ -3,19 +3,6 @@
 {% block title %}Messagerie
 {% endblock %}
 
-{% block javascript %}
-	{{ parent() }}
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-	<script src="{{ asset('assets/js/discution.js') }}"></script>
-	<script>
-		 var discussion = new Discussion({
-		 	currentUser: {{ app.user.id }}
-		 });
-		 discussion.bindEvents();
-	</script>
-{% endblock %}
-
-
 {% block body %}
 
 	<style>
@@ -239,21 +226,19 @@
 					</div>
 					<div class="inbox_chat">
 						{% for user in users %}
-							<a href="{{ path('conversation', { 'id' : user.id}) }}">
-								<div class="chat_list">
-									<div class="chat_people">
-										<div class="chat_img">
-											<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-										</div>
-										<div class="chat_ib">
-											<h5>{{ user.lastName}}
-												<span class="chat_date">Dec 25</span>
-											</h5>
-											<p>Test, which is a new approach to have all solutions astrology under one roof.</p>
-										</div>
+							<div class="chat_list">
+								<div class="chat_people">
+									<div class="chat_img">
+										<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+									</div>
+									<div class="chat_ib">
+										<h5>{{ user.lastName}}
+											<span class="chat_date">Dec 25</span>
+										</h5>
+										<p>Test, which is a new approach to have all solutions astrology under one roof.</p>
 									</div>
 								</div>
-							</a>
+							</div>
 						{% endfor %}
 
 					</div>
@@ -264,16 +249,39 @@
 				<!--Liste des messages -->
 				<div class="mesgs">
 					<div class="msg_history">
-						<p>Choisir une conversation</p>
+
+						{% for message in messages %}
+							{% if message.fromId != app.user %}
+								<div class="incoming_msg">
+									<div class="incoming_msg_img">
+										<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+									</div>
+									<div class="received_msg">
+										<div class="received_withd_msg">
+											<p>{{ message.content }}</p>
+											<span class="time_date">
+												{{ message.createdAt|date("d/m/Y") }}</span>
+										</div>
+									</div>
+								</div>
+							{% else %}
+								<div class="outgoing_msg">
+									<div class="sent_msg">
+										<p>{{ message.content }}</p>
+										<span class="time_date">
+											{{ message.createdAt|date("d/m/Y") }}</span>
+									</div>
+								</div>
+							{% endif %}
+						{% endfor %}
+
 					</div>
 					<div class="type_msg">
 						<div class="input_msg_write">
-							<form method="post" action="/discussion/store" class="needs-validation message_box_write" novalidate>
-								<input name="content" type="text" class="write_msg" placeholder="Type a message"/>
-								<button class="msg_send_btn" type="submit">
-									<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-								</button>
-							</form>
+							<input type="text" class="write_msg" placeholder="Écrire un message"/>
+							<button class="msg_send_btn" type="button">
+								<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+							</button>
 						</div>
 					</div>
 				</div>

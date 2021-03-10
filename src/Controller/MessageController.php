@@ -30,15 +30,13 @@ class MessageController extends AbstractController
     /**
      * @Route("/", name="message_index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository, MessageRepository $messageRepository): Response
+    public function index(UserRepository $userRepository): Response
     {
 
         $users = $userRepository->findUsersWithoutCurrentUser($this->getUser('id'));
-        $messages = $messageRepository->findAll();
 
         return $this->render('message/index.html.twig', [
             'users' => $users,
-            'messages' => $messages
         ]);
     }
 
@@ -73,6 +71,26 @@ class MessageController extends AbstractController
         return $this->render('message/new.html.twig', [
             'message' => $message,
             'form' => $form->createView(),
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/{id}", name="conversation")
+     */
+    public function show($id, UserRepository $userRepository, MessageRepository $messageRepository): Response
+    {
+        $users = $userRepository->findUsersWithoutCurrentUser($this->getUser('id'));
+        $messages = $messageRepository->Message(['id' => $id], $this->getUser('id'));
+        
+        if (!$messages) {
+            return $this->redirectToRoute('message_index');
+        }
+
+        return $this->render('message/conversation.html.twig', [
+            'users' => $users,
+            'messages' => $messages,
         ]);
     }
 
