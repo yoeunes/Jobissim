@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -23,6 +24,8 @@ class User implements UserInterface, \Serializable
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"public"})
      */
     private $id;
 
@@ -44,11 +47,15 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Groups({"public"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"public"})
      */
     private $lastname;
 
@@ -190,9 +197,14 @@ class User implements UserInterface, \Serializable
      */
     private $civilite;
 
-
-
-
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Groups({"public"})
+     */
+    private $isOnline = false;
 
     public function __construct()
     {
@@ -818,6 +830,23 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isOnline(): bool
+    {
+        return $this->isOnline;
+    }
 
+    /**
+     * @param bool $isOnline
+     *
+     * @return self
+     */
+    public function setIsOnline(bool $isOnline): self
+    {
+        $this->isOnline = $isOnline;
 
+        return $this;
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Message;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -55,6 +56,18 @@ class MessageRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getDiscussion(User $sender, User $receiver)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->where('m.from_id = :sender and m.to_id = :receiver')
+            ->orWhere('m.from_id = :receiver and m.to_id = :sender')
+            ->orderBy('m.createdAt', 'ASC')
+            ->setParameters([
+                'sender' => $sender,
+                'receiver' => $receiver,
+            ]);
 
-
+        return $qb->getQuery()->getResult();
+    }
 }
