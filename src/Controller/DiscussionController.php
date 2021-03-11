@@ -94,4 +94,23 @@ class DiscussionController
 
         return new JsonResponse(json_decode($response));
     }
+
+    /**
+     * @Route("/mark-as-read/{id}", methods={"POST"})
+     *
+     * @param User $sender
+     *
+     * @return JsonResponse
+     */
+    public function markAsRead(User $sender): JsonResponse
+    {
+        /** @var User $receiver */
+        $receiver = $this->security->getUser();
+
+        $result = $this->messageRepository->markDiscussionAsRead($sender, $receiver);
+
+        return new JsonResponse([
+            'result' => $result,
+        ]);
+    }
 }

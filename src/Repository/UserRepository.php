@@ -44,14 +44,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('val', $user);
     }
 
-
-    public function findUsersWithoutCurrentUser($user)
+    /**
+     * @param int[]|int $users
+     *
+     * @return User[]
+     */
+    public function findAllExcept($users = [])
     {
-        return $this->createQueryBuilder('m')
-            ->Where('m.id != :val')
-            ->setParameter('val', $user)
-            ->getQuery()
-            ->getResult();
+        $qb = $this->createQueryBuilder('u');
+        $qb
+            ->Where('u.id not in (:ids)')
+            ->setParameter('ids', (array) $users);
+
+        return $qb->getQuery()->getResult();
     }
 
 }

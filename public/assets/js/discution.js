@@ -48,6 +48,12 @@ Discussion.prototype.bindEvents = function () {
             });
         }
     });
+
+    $('form.message_box_write input.write_msg').on('focus', function (event) {
+        event.preventDefault();
+
+        self.markDiscussionAsRead();
+    });
 };
 
 Discussion.prototype.loadActiveUsers = function () {
@@ -65,14 +71,14 @@ Discussion.prototype.loadActiveUsers = function () {
             selectedUser = data[0].id;
         }
 
-        data.forEach(({ id, firstname, lastname, isOnline, image }) => {
+        data.forEach(({ id, firstname, lastname, isOnline, image, countMessages = 0 }) => {
             $('.inbox_chat').append('<div class="chat_list ' + (id == selectedUser ? 'active_chat' : '') + '" data-otherUser="' + id + '">\n' +
                 '                    <div class="chat_people">\n' +
                 '                        <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>\n' +
                 '                        <a href="#" class="card-link chat_ib usernameLink">\n' +
                 '                            <h5>' + firstname + ' ' + lastname + '</h5>\n' +
-                '                            <span class="badge badge-light not-read-count"></span>' +
-                '                            <svg height="10" width="10" class="online-status"><circle cx="5" cy="5" r="5" fill="' + ('1' === data.isOnline ? 'green' : 'red') + '" /></svg>' +
+                '                            <span class="badge badge-light not-read-count">'+ (0 !== countMessages ? countMessages : '') +'</span>' +
+                '                            <svg height="10" width="10" class="online-status"><circle cx="5" cy="5" r="5" fill="' + (true === isOnline ? 'green' : 'red') + '" /></svg>' +
                 '                        </a>\n' +
                 '                    </div>\n' +
                 '                </div>');
@@ -88,7 +94,6 @@ Discussion.prototype.loadActiveChat = function () {
         method: 'get',
         url: '/discussion/with/' + otherUser,
         responseType: 'json',
-
     }).then(function ({ data }) {
         $('.msg_history').html('');
         data.forEach(({ sender, content, createdAt }) => {
@@ -111,3 +116,17 @@ Discussion.prototype.loadActiveChat = function () {
         });
     });
 };
+
+Discussion.prototype.markDiscussionAsRead = function () {
+    var otherUser = $('.active_chat').first().attr('data-otherUser');
+
+    axios({
+        method: 'post',
+        url: '/discussion/mark-as-read/' + otherUser,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    }).then(function () {
+        $('.active_chat').first().find('.not-read-count').html('');
+    });
+}

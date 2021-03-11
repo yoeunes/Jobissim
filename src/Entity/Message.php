@@ -55,10 +55,12 @@ class Message
      */
     private $createdAt;
 
-    public function __construct()
-    {
-        $this->createdAt = new \DateTimeImmutable();
-    }
+    /**
+     * @var \DateTimeImmutable
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $readAt;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -81,7 +83,10 @@ class Message
      */
     private $fichierFile;
 
-
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -183,5 +188,23 @@ class Message
         return $this->fichier;
     }
 
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getReadAt(): \DateTimeImmutable
+    {
+        return $this->readAt;
+    }
 
+    /**
+     * @param \DateTimeImmutable $readAt
+     *
+     * @return self
+     */
+    public function setReadAt(\DateTimeImmutable $readAt): self
+    {
+        $this->readAt = $readAt;
+
+        return $this;
+    }
 }

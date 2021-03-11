@@ -2,9 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Message;
-use App\Entity\EmploiLike;
-use App\Entity\FormationLike;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -81,6 +79,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Groups({"public"})
      */
     private $image;
 
@@ -198,13 +198,13 @@ class User implements UserInterface, \Serializable
     private $civilite;
 
     /**
-     * @var bool
+     * Date/Time of the last activity
      *
-     * @ORM\Column(type="boolean", options={"default": false})
+     * @var \DateTime
      *
-     * @Groups({"public"})
+     * @ORM\Column(name="last_activity", type="datetime", nullable=true)
      */
-    private $isOnline = false;
+    private $lastActivity;
 
     public function __construct()
     {
@@ -832,20 +832,38 @@ class User implements UserInterface, \Serializable
 
     /**
      * @return bool
+     *
+     * @SerializedName("isOnline")
+     * @Groups({"public"})
      */
     public function isOnline(): bool
     {
-        return $this->isOnline;
+        return $this->getLastActivity() > new \DateTime('2 minutes ago');
     }
 
     /**
-     * @param bool $isOnline
+     * @return \DateTime|null
+     */
+    public function getLastActivity(): ?\DateTime
+    {
+        return $this->lastActivity;
+    }
+
+    /**
+     * @param \DateTime $lastActivity
      *
      * @return self
      */
-    public function setIsOnline(bool $isOnline): self
+    public function setLastActivity(\DateTime $lastActivity): self
     {
-        $this->isOnline = $isOnline;
+        $this->lastActivity = $lastActivity;
+
+        return $this;
+    }
+
+    public function refreshLastActivity(): self
+    {
+        $this->setLastActivity(new \DateTime());
 
         return $this;
     }

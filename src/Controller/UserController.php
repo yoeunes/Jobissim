@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @Route("/users")
@@ -23,11 +24,22 @@ class UserController
      */
     private $serializer;
 
-    public function __construct(UserRepository $userRepository, SerializerInterface $serializer, TokenStorageInterface $tokenStorage)
+    /**
+     * @var Security
+     */
+    private $security;
+
+    /**
+     * @var MessageRepository
+     */
+    private $messageRepository;
+
+    public function __construct(UserRepository $userRepository, SerializerInterface $serializer, Security $security, MessageRepository $messageRepository)
     {
         $this->userRepository = $userRepository;
         $this->serializer = $serializer;
-        $this->tokenStorage = $tokenStorage;
+        $this->security = $security;
+        $this->messageRepository = $messageRepository;
     }
 
     /**
@@ -35,11 +47,17 @@ class UserController
      */
     public function index(): JsonResponse
     {
-        $user = $this->tokenStorage->getToken()->getUser('id');
-        $users = $this->userRepository->findUsersWithoutCurrentUser($user);
+        $user = $this->security->getUser();
 
-        $response = $this->serializer->serialize($users, 'json', ['groups' => 'public']);
+        $users = $this->userRepository->findAllExcept($user->getId());
 
-        return new JsonResponse(json_decode($response));
+        $countMessage = array_column($this->messageRepository->getMessageCountForUser($user), 'messages', 'sender');
+
+        $response = json_decode($this->serializer->serialize($users, 'json', ['groups' => 'public']), true);
+        foreach ($response as $index => $user) {
+            $response[$index]['countMessages'] = $countMessage[$user['id']] ?? 0;
+        }
+
+        return new JsonResponse($response);
     }
 }
