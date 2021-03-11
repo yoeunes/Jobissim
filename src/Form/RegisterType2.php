@@ -30,6 +30,16 @@ class RegisterType2 extends AbstractType
                     'placeholder' => 'Nom'
                 ]
             ])
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom',
+                'constraints' => new Length([
+                    'min'=>4,
+                    'max'=>30
+                    ]),
+                'attr' => [
+                    'placeholder' => 'Prénom'
+                ]
+            ])
             ->add('civilite', ChoiceType::class, [
                 'choices' => [
                         'Mr' => 'Mr',

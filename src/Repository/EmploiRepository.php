@@ -43,6 +43,16 @@ class EmploiRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    
+    public function actu()
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.id', 'ASC')
+            ->getQuery()
+            ->execute()
+            ->setMaxResults(4);
+    }
+
 
     public function findEmploisLikedByUser($user)
     {
@@ -76,7 +86,7 @@ class EmploiRepository extends ServiceEntityRepository
         return $this->paginator->paginate(
             $query,
             $search->page,
-            3
+            10
         );
     }
 

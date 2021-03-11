@@ -37,7 +37,7 @@
 }
 .newform {
 	width: 400px;
-	height: 950px;
+	height: 1040px;
 	margin-bottom: 5%;
 	border: none;
 }
@@ -81,6 +81,7 @@
 		{{ form_row(form.naissance) }}
 		{{ form_row(form.email) }}
 		{{ form_row(form.postale) }}
+		{{ form_row(form.compte) }}
 		{{ form_row(form.password) }}
 
 		<div class="form-group">
@@ -108,6 +109,7 @@
 		<h6 class="mb-5">Inscription</h6>
 
 		{{ form_row(form2.lastname) }}
+		{{ form_row(form2.firstname) }}
 		{{ form_row(form2.civilite) }}
 		{{ form_row(form2.siret) }}
 		{{ form_row(form2.email) }}

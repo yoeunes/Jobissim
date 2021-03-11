@@ -46,7 +46,7 @@ class EmploiController extends AbstractController
             $emplois = $paginator->paginate(
                 $repository->search($_POST['search']),
                 $request->query->getInt('page', 1), 
-                3
+                10
             );
         }
 
@@ -54,7 +54,7 @@ class EmploiController extends AbstractController
             $emplois = $paginator->paginate(
                 $repository->search2($_POST['search2']),
                 $request->query->getInt('page', 1), 
-                3
+                10
             );
         }
 

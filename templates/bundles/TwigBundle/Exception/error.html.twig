@@ -7,7 +7,7 @@
         	<h2 class="font-weight-bold display-4 ">PAGE
 		<span style="color: #2277ff">INTROUVABLE</span>
 	</h2>
-        <p class="newform">Désolé, cette page ne semble pas être accessible pour le moment; {% if is_granted('ROLE_FORMATEUR') or is_granted('ROLE_EMPLOYEUR') %} ou un <a style="color: black !important; text-decoration: underline;" href="{{ path('paiement') }}"><b>abonnement</b></a> est nécessaire pour accéder à ce service. {% endif %}</p>
+        <p class="newform">Désolé, cette page ne semble pas être accessible pour le moment; {% if is_granted('ROLE_FORMATEUR') or is_granted('ROLE_EMPLOYEUR') %} ou un <a style="color: black !important; text-decoration: underline;" href="{{ path('subscription') }}"><b>abonnement</b></a> est nécessaire pour accéder à ce service. {% endif %}</p>
         <a href="{{ path('home') }}" class="btn btn-info">Retour</a>
     </div>
 {% endblock %}

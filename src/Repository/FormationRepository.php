@@ -36,6 +36,7 @@ class FormationRepository extends ServiceEntityRepository
             ->execute();
     }
 
+
     
     public function search2($term)
     {
@@ -45,6 +46,17 @@ class FormationRepository extends ServiceEntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function actu()
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.id', 'ASC')
+            ->getQuery()
+            ->execute()
+            ->setMaxResults(4);
+    }
+
+    
 
     public function findAuteur($value)
     {
@@ -91,7 +103,7 @@ class FormationRepository extends ServiceEntityRepository
         return $this->paginator->paginate(
             $query,
             $search->page,
-            3
+            10
         );
     }
 

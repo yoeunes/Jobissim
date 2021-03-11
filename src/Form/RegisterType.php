@@ -67,6 +67,12 @@ class RegisterType extends AbstractType
                 'label' => 'Code postale',
                 'required' => false,
             ])
+            ->add('compte', ChoiceType::class, [
+                'choices' => [
+                        'Particulier' => 'Particulier',
+                ],
+                'label' => 'Compte'
+            ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identiques',

@@ -46,7 +46,7 @@ class CvthequeController extends AbstractController
             $cvtheques = $paginator->paginate(
                 $repository->search($_POST['search']),
                 $request->query->getInt('page', 1), 
-                3
+                10
             );
         }
 
@@ -54,7 +54,7 @@ class CvthequeController extends AbstractController
             $cvtheques = $paginator->paginate(
                 $repository->search2($_POST['search2']),
                 $request->query->getInt('page', 1), 
-                3
+                10
             );
         }
 
@@ -116,7 +116,9 @@ class CvthequeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $cvtheque->setNom($this->getUser()->getLastname());
             $cvtheque->setPrenom($this->getUser()->getFirstname());
-            $cvtheque->setImage($this->getUser()->getImage());
+            if($this->getUser()->getImage() != '') {
+                $cvtheque->setImage($this->getUser()->getImage());
+            }
             $cvtheque->setReference($this->getUser());
             $cvtheque->setCv($this->getUser()->getCv());
             $entityManager = $this->getDoctrine()->getManager();

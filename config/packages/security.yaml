@@ -38,8 +38,6 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/compte, roles: ROLE_USER }
         - { path: ^/message, roles: ROLE_USER }
-        - { path: ^/paiement, roles: ROLE_USER }
-        - { path: ^/commande, roles: ROLE_USER }
         - { path: ^/users, roles: ROLE_USER }
         - { path: ^/discussion, roles: ROLE_USER }
         - { path: ^/formation/\d+/candidature, roles: ROLE_USER }
@@ -47,6 +45,6 @@ security:
         - { path: ^/new-cvtheque, roles: ROLE_USER }
         - { path: ^/emploi/\d+/candidature, roles: ROLE_USER }
         - { path: ^/stats, roles: [ROLE_STATS, ROLE_ADMIN] }
-        - { path: ^/paiement, roles: [ROLE_FORMATEUR, ROLE_EMPLOYEUR, ROLE_ADMIN] }
+        - { path: ^/subscription, roles: [ROLE_FORMATEUR, ROLE_EMPLOYEUR, ROLE_ADMIN] }
         - { path: ^/new-formation, roles: [ROLE_FORMATEUR_VALIDE, ROLE_ADMIN] }
         - { path: ^/new-emploi, roles: [ROLE_EMPLOYEUR_1, ROLE_EMPLOYEUR_5, ROLE_EMPLOYEUR_10, ROLE_EMPLOYEUR_ILLIMITE, ROLE_ADMIN] }
