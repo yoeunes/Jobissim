@@ -31,6 +31,20 @@ class MessageRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getMessageCountForUser(User $receiver)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->select('count(m) as messages', 'IDENTITY(m.from_id) as sender')
+            ->where('m.to_id = :receiver and m.readAt is null')
+            ->groupBy('m.from_id')
+            ->setParameters([
+                'receiver' => $receiver,
+            ]);
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function countMessages($user)
     {
         return $this->createQueryBuilder('m')
@@ -57,5 +71,21 @@ class MessageRepository extends ServiceEntityRepository
             ]);
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function markDiscussionAsRead(User $sender, User $receiver)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->update('App:Message', 'm')
+            ->set('m.readAt', ':readAt')
+            ->where('m.from_id = :sender and m.to_id = :receiver')
+            ->setParameters([
+                'sender' => $sender,
+                'receiver' => $receiver,
+                'readAt' => new \DateTimeImmutable(),
+            ]);
+
+        return $qb->getQuery()->execute();
     }
 }
