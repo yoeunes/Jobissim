@@ -30,7 +30,7 @@ class MessageController extends AbstractController
     /**
      * @Route("/", name="message_index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(): Response
     {
         return $this->render('message/index.html.twig', [
         ]);

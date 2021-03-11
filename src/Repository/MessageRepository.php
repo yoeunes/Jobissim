@@ -44,18 +44,6 @@ class MessageRepository extends ServiceEntityRepository
     }
 
 
-    public function Message($fromId, $toId)
-    {
-        return $this->createQueryBuilder('m')
-            ->Where('m.to_id = :val')
-            ->andWhere('m.from_id = :val2')
-            ->orderBy('m.id', 'ASC')
-            ->setParameter('val', $fromId)
-            ->setParameter('val2', $toId)
-            ->getQuery()
-            ->getResult();
-    }
-
     public function getDiscussion(User $sender, User $receiver)
     {
         $qb = $this->createQueryBuilder('m');

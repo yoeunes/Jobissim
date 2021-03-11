@@ -211,7 +211,7 @@ class FormationController extends AbstractController
 
             $message->setFromId($this->getUser());
             $message->setToId($auteur);
-            $message->setSubject("*Candidature : " . $nom);
+            // $message->setSubject("*Candidature : " . $nom);
             $message->setIsRead(0);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($message, $formation);
