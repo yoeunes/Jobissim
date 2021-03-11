@@ -65,10 +65,10 @@ Discussion.prototype.loadActiveUsers = function () {
             selectedUser = data[0].id;
         }
 
-        data.forEach(({ id, firstname, lastname, isOnline }) => {
+        data.forEach(({ id, firstname, lastname, isOnline, image }) => {
             $('.inbox_chat').append('<div class="chat_list ' + (id == selectedUser ? 'active_chat' : '') + '" data-otherUser="' + id + '">\n' +
                 '                    <div class="chat_people">\n' +
-                '                        <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>\n' +
+                '                        <div class="chat_img"><img src="/uploads/ '+ image +'" alt="sunil"></div>\n' +
                 '                        <a href="#" class="card-link chat_ib usernameLink">\n' +
                 '                            <h5>' + firstname + ' ' + lastname + '</h5>\n' +
                 '                            <span class="badge badge-light not-read-count"></span>' +
