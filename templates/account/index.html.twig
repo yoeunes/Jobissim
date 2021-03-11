@@ -127,6 +127,16 @@
 		<br/>
 	{% endif %}
 
+
+	{% if is_granted('ROLE_EMPFORM') %}
+		<h2 class="font-weight-bold display-4">
+			MON
+			<span style="color: #2277ff">COMPTE EMPLOYEUR/FORMATEUR</span>
+		</h2>
+		<hr/>
+		<br/>
+	{% endif %}
+
 	<!-- Profil -->
 
 	<div class="profiluser">
@@ -165,10 +175,6 @@
 				</a>
 				<br/>
 				<br/>
-				{# <a class="changepassword" href="{{ path('account_order') }}">
-				          <i class="fas fa-truck"></i>Mes commandes
-				        </a>
-				        <br /> <br /> #}
 				{% if is_granted('ROLE_VISIO') or is_granted('ROLE_ADMIN') %}
 					<a class="changepassword" href="https://conference.jobissim.com" target="bank">
 						<i class="fas fa-phone-volume"></i>Visioconférence
@@ -189,22 +195,50 @@
 			{% endif %}
 
 			{% if is_granted('ROLE_EMPLOYEUR') %}
-				{# <a class="changepassword" href="{{ path('favoris_cvtheque') }}">
-				          <i class="fab fa-leanpub"></i>Mes CV favoris
-				        </a> #}
-				{# <br /> <br />
-				        <a class="changepassword" href="{{ path('account_order') }}">
-				          <i class="fas fa-truck"></i>Mes commandes
-				        </a>
-				        <br /> <br /> #}
-					{% if is_granted('ROLE_VISIO') or is_granted('ROLE_ADMIN') %}
-						<a class="changepassword" href="https://conference.jobissim.com" target="bank"> <i class="fas fa-phone-volume"></i>Visioconférence
+				<a class="changepassword" href="{{ path('favoris_cvtheque') }}">
+					<i class="fab fa-leanpub"></i>Mes CV favoris
+				</a>
+				<br/>
+				<br/>
+				{% if is_granted('ROLE_VISIO') or is_granted('ROLE_ADMIN') %}
+					<a class="changepassword" href="https://conference.jobissim.com" target="bank">
+						<i class="fas fa-phone-volume"></i>Visioconférence
 					</a>
 					<br/>
 					<br/>
 				{% endif %}
 				<a class="changepassword" href="{{ path('emploi_new') }}">
 					<i class="fas fa-arrow-alt-circle-right"></i>Déposer une annonce
+				</a>
+				<br/>
+				<br/>
+				<a class="changepassword" href="{{ path('stats') }}">
+					<i class="fas fa-chart-pie"></i>Statistiques
+				</a>
+				<br/>
+				<br/>
+			{% endif %}
+
+			{% if is_granted('ROLE_EMPFORM') %}
+				<a class="changepassword" href="{{ path('favoris_cvtheque') }}">
+					<i class="fab fa-leanpub"></i>Mes CV favoris
+				</a>
+				<br/>
+				<br/>
+				{% if is_granted('ROLE_VISIO') or is_granted('ROLE_ADMIN') %}
+					<a class="changepassword" href="https://conference.jobissim.com" target="bank">
+						<i class="fas fa-phone-volume"></i>Visioconférence
+					</a>
+					<br/>
+					<br/>
+				{% endif %}
+				<a class="changepassword" href="{{ path('emploi_new') }}">
+					<i class="fas fa-arrow-alt-circle-right"></i>Déposer un emploi
+				</a>
+				<br/>
+				<br/>
+				<a class="changepassword" href="{{ path('formation_new') }}">
+					<i class="fas fa-arrow-alt-circle-right"></i>Déposer une formation
 				</a>
 				<br/>
 				<br/>
@@ -254,7 +288,7 @@
 				</a>
 				<br/>
 				<br/>
-				{% if is_granted('ROLE_FORMATEUR') or is_granted('ROLE_EMPLOYEUR') %}
+				{% if is_granted('ROLE_FORMATEUR') or is_granted('ROLE_EMPLOYEUR') or is_granted('ROLE_EMPFORM') %}
 					<a class="update" href="{{ path('subscription') }}">
 						<i class="fas fa-cog"></i>Souscrire un abonnement
 					</a>
@@ -306,14 +340,16 @@
 			</div>
 
 			<div class="cv">
-			        <a class="changepassword">
-			          <i class="fas fa-arrow-alt-circle-right"></i>Résilier mon abonnement
-			        </a><br /> <br />
-			        <a class="changepassword2" href="{{ path('stop') }}">
-			        {# <a class="changepassword2" href="{{ path('cancelabo') }}"> #}
-			          Faire la demande
-			        </a>
-			      </div>
+				<a class="changepassword">
+					<i class="fas fa-arrow-alt-circle-right"></i>Résilier mon abonnement
+				</a><br/>
+				<br/>
+				<a
+					class="changepassword2" href="{{ path('stop') }}">
+					{# <a class="changepassword2" href="{{ path('cancelabo') }}"> #}
+					Faire la demande
+				</a>
+			</div>
 		{% endif %}
 
 		{% if is_granted('ROLE_FORMATEUR') %}
@@ -328,14 +364,43 @@
 			</div>
 
 			<div class="cv">
-			        <a class="changepassword">
-			          <i class="fas fa-arrow-alt-circle-right"></i>Résilier mon abonnement
-			        </a><br /> <br />
-			        <a class="changepassword2" href="{{ path('stop') }}">
-			        {# <a class="changepassword2" href="{{ path('cancelabo') }}"> #}
-			          Faire la demande
-			        </a>
-			      </div>
+				<a class="changepassword">
+					<i class="fas fa-arrow-alt-circle-right"></i>Résilier mon abonnement
+				</a><br/>
+				<br/>
+				<a
+					class="changepassword2" href="{{ path('stop') }}">
+					{# <a class="changepassword2" href="{{ path('cancelabo') }}"> #}
+					Faire la demande
+				</a>
+			</div>
+		{% endif %}
+
+		{% if is_granted('ROLE_EMPFORM') %}
+			<div class="cv">
+				<a class="changepassword">
+					<i class="fas fa-arrow-alt-circle-right"></i>Télécharger les contrats
+				</a><br/>
+				<br/>
+				<a class="changepassword2" href="/contrats/CAA.pdf" download>
+					Contrat AA.PDF
+				</a> &nbsp;
+				<a class="changepassword2" href="/contrats/CGV.pdf" download>
+					Contrat CGV.PDF
+				</a>
+			</div>
+
+			<div class="cv">
+				<a class="changepassword">
+					<i class="fas fa-arrow-alt-circle-right"></i>Résilier mon abonnement
+				</a><br/>
+				<br/>
+				<a
+					class="changepassword2" href="{{ path('stop') }}">
+					{# <a class="changepassword2" href="{{ path('cancelabo') }}"> #}
+					Faire la demande
+				</a>
+			</div>
 		{% endif %}
 	</div>
 {% endblock %}

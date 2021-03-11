@@ -37,6 +37,7 @@ class UserCrudController extends AbstractCrudController
                 'ROLE_EVALUATION' => 'ROLE_EVALUATION',
                 'ROLE_CVTHEQUE' => 'ROLE_CVTHEQUE',
                 'ROLE_VISIO' => 'ROLE_VISIO',
+                'ROLE_EMPFORM' => 'ROLE_EMPFORM',
             ])->allowMultipleChoices(),
             ChoiceField::new('civilite')->setChoices([
                 'Mr' => 'Mr',

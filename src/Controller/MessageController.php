@@ -32,11 +32,7 @@ class MessageController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-
-        $users = $userRepository->findUsersWithoutCurrentUser($this->getUser('id'));
-
         return $this->render('message/index.html.twig', [
-            'users' => $users,
         ]);
     }
 
@@ -75,39 +71,4 @@ class MessageController extends AbstractController
     }
 
 
-
-    /**
-     * @Route("/{id}", name="conversation")
-     */
-    public function show($id, UserRepository $userRepository, MessageRepository $messageRepository): Response
-    {
-        $users = $userRepository->findUsersWithoutCurrentUser($this->getUser('id'));
-        $messages = $messageRepository->Message(['id' => $id], $this->getUser('id'));
-        
-        if (!$messages) {
-            return $this->redirectToRoute('message_index');
-        }
-
-        return $this->render('message/conversation.html.twig', [
-            'users' => $users,
-            'messages' => $messages,
-        ]);
-    }
-
-
-
-
-    /**
-     * @Route("/{id}", name="message_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Message $message): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$message->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($message);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('message_index');
-    }
 }

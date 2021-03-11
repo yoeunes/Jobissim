@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @Route("/users")
@@ -22,10 +23,11 @@ class UserController
      */
     private $serializer;
 
-    public function __construct(UserRepository $userRepository, SerializerInterface $serializer)
+    public function __construct(UserRepository $userRepository, SerializerInterface $serializer, TokenStorageInterface $tokenStorage)
     {
         $this->userRepository = $userRepository;
         $this->serializer = $serializer;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -33,7 +35,8 @@ class UserController
      */
     public function index(): JsonResponse
     {
-        $users = $this->userRepository->findAll();
+        $user = $this->tokenStorage->getToken()->getUser('id');
+        $users = $this->userRepository->findUsersWithoutCurrentUser($user);
 
         $response = $this->serializer->serialize($users, 'json', ['groups' => 'public']);
 

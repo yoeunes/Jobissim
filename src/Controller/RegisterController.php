@@ -79,8 +79,10 @@ class RegisterController extends AbstractController
 
                 if($form2["compte"]->getData() == 'Formateur') {
                     $user->setRoles(['ROLE_FORMATEUR']);
-                } else {
+                } else if($form2["compte"]->getData() == 'Employeur') {
                     $user->setRoles(['ROLE_EMPLOYEUR']);
+                } else if($form2["compte"]->getData() == 'Formateur_Employeur') {
+                    $user->setRoles(['ROLE_EMPFORM']);
                 }
 
                 $this->entityManager->persist($user);

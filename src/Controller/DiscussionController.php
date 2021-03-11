@@ -84,6 +84,7 @@ class DiscussionController
         $message = new Message();
         $message->setFromId($currentUser);
         $message->setToId($receiver);
+        $message->setIsRead(0);
         $message->setContent($request->get('content'));
 
         $this->entityManager->persist($message);

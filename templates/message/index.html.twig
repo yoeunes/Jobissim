@@ -158,7 +158,7 @@
 		}
 
 		.sent_msg p {
-			background: #05728f none repeat scroll 0 0;
+			background: #2277ff none repeat scroll 0 0;
 			border-radius: 3px;
 			font-size: 14px;
 			margin: 0;
@@ -238,8 +238,7 @@
 						</div>
 					</div>
 					<div class="inbox_chat">
-						{% for user in users %}
-							<a href="{{ path('conversation', { 'id' : user.id}) }}">
+						{# {% for user in users %}
 								<div class="chat_list">
 									<div class="chat_people">
 										<div class="chat_img">
@@ -253,8 +252,7 @@
 										</div>
 									</div>
 								</div>
-							</a>
-						{% endfor %}
+						{% endfor %} #}
 
 					</div>
 				</div>
@@ -264,7 +262,6 @@
 				<!--Liste des messages -->
 				<div class="mesgs">
 					<div class="msg_history">
-						<p>Choisir une conversation</p>
 					</div>
 					<div class="type_msg">
 						<div class="input_msg_write">

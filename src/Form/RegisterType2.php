@@ -61,6 +61,7 @@ class RegisterType2 extends AbstractType
                 'choices' => [
                         'Formateur' => 'Formateur',
                         'Employeur' => 'Employeur',
+                        'Formateur_Employeur' => 'Formateur_Employeur',
                 ],
                 'label' => 'Compte'
             ])
