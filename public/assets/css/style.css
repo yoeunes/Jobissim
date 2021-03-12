@@ -305,6 +305,7 @@ li.flyout-mega>a:hover +.flyout-mega-wrap{
 
 .navimg {
     height: 220px;
+    width: 220px;
 }
 
 .lead {
@@ -521,6 +522,7 @@ i {
     margin-bottom: 3%;
 }
 
+
 /* Pagination */
 
 .page-link {
@@ -693,6 +695,7 @@ i {
     }
     .navimg {
         height: 128px;
+        width: 128px;
     }
     .fa-heart {
         font-size: 15px;

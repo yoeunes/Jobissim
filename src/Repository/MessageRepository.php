@@ -51,7 +51,7 @@ class MessageRepository extends ServiceEntityRepository
             ->select('COUNT(m)')
             ->Where('m.to_id = :val')
             ->andWhere('m.to_id != m.from_id')
-            ->andWhere('m.isRead = 0')
+            ->andWhere('m.readAt is null')
             ->setParameter('val', $user)
             ->getQuery()
             ->getSingleScalarResult();

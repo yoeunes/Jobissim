@@ -86,7 +86,7 @@ class EmploiType extends AbstractType
                 'label' => 'Organisme'
             ])
             ->add('imageFile', VichFileType::class, [
-                'label' => 'Image',
+                'label' => 'Image (220x220)',
                 'required' => false
             ])
             ->add('evaluationFile', VichFileType::class, [

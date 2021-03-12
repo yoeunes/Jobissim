@@ -77,8 +77,8 @@ Discussion.prototype.loadActiveUsers = function () {
                 '                        <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>\n' +
                 '                        <a href="#" class="card-link chat_ib usernameLink">\n' +
                 '                            <h5>' + firstname + ' ' + lastname + '</h5>\n' +
-                '                            <span class="badge badge-light not-read-count">'+ (0 !== countMessages ? countMessages : '') +'</span>' +
                 '                            <svg height="10" width="10" class="online-status"><circle cx="5" cy="5" r="5" fill="' + (true === isOnline ? 'green' : 'red') + '" /></svg>' +
+                '                            <span class="badge badge-info">'+ (0 !== countMessages ? countMessages : '') +'</span>' +
                 '                        </a>\n' +
                 '                    </div>\n' +
                 '                </div>');

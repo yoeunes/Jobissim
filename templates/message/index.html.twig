@@ -8,10 +8,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 	<script src="{{ asset('assets/js/discution.js') }}"></script>
 	<script>
-		 var discussion = new Discussion({
-		 	currentUser: {{ app.user.id }}
-		 });
-		 discussion.bindEvents();
+		var discussion = new Discussion({currentUser: {{ app.user.id }}});
+discussion.bindEvents();
 	</script>
 {% endblock %}
 
@@ -199,6 +197,7 @@
 			right: 0;
 			top: 11px;
 			width: 33px;
+			padding: 5px 5px 5px 0.7px;
 		}
 		.messaging {
 			padding: 0 0 50px;
@@ -226,49 +225,33 @@
 						<div class="recent_heading">
 							<h4>Récents</h4>
 						</div>
-						<div class="srch_bar">
-							<div class="stylish-input-group">
-								<input type="text" class="search-bar" placeholder="Rechercher">
-								<span class="input-group-addon">
-									<button type="button">
-										<i class="fa fa-search" style="color: #2277ff; font-size: 15px;" aria-hidden="true"></i>
-									</button>
-								</span>
-							</div>
-						</div>
-					</div>
-					<div class="inbox_chat">
-						{# {% for user in users %}
-								<div class="chat_list">
-									<div class="chat_people">
-										<div class="chat_img">
-											<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-										</div>
-										<div class="chat_ib">
-											<h5>{{ user.lastName}}
-												<span class="chat_date">Dec 25</span>
-											</h5>
-											<p>Test, which is a new approach to have all solutions astrology under one roof.</p>
-										</div>
-									</div>
+						<form name="searching" method="post" action="/users/">
+							<div class="srch_bar">
+								<div class="stylish-input-group">
+									<input type="text" class="search-bar" name="search" type="search" placeholder="Rechercher">
+									<span class="input-group-addon">
+										<button type="submit">
+											<i class="fa fa-search" style="color: #2277ff; font-size: 15px;" aria-hidden="true"></i>
+										</button>
+									</span>
 								</div>
-						{% endfor %} #}
-
+							</div>
+						</form>
 					</div>
+					<div class="inbox_chat"></div>
 				</div>
 
 				<!-- end -->
 
 				<!--Liste des messages -->
 				<div class="mesgs">
-					<div class="msg_history">
-					</div>
+					<div class="msg_history"></div>
 					<div class="type_msg">
 						<div class="input_msg_write">
 							<form method="post" action="/discussion/store" class="needs-validation message_box_write" novalidate>
 								<input name="content" type="text" class="write_msg" placeholder="Type a message"/>
 								<button class="msg_send_btn" type="submit">
-									<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+									<i class="fas fa-paper-plane" style="font-size: 20px;"></i>
 								</button>
 							</form>
 						</div>

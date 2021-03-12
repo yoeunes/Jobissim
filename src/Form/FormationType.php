@@ -85,7 +85,7 @@ class FormationType extends AbstractType
                 'value' => 1,
             ))
             ->add('imageFile', VichFileType::class, [
-                'label' => 'Image',
+                'label' => 'Image (220x220)',
                 'required' => false
             ])
             ->add('evaluationFile', VichFileType::class, [

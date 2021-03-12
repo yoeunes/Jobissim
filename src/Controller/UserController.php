@@ -43,11 +43,15 @@ class UserController
     }
 
     /**
-     * @Route("/")
+     * @Route("/", name="chatusers")
      */
     public function index(): JsonResponse
     {
         $user = $this->security->getUser();
+
+        if (isset($_POST['search']) && !empty($_POST['search'])) {
+            $users = $this->userRepository->search($_POST['search']);
+        }
 
         $users = $this->userRepository->findAllExcept($user->getId());
 
