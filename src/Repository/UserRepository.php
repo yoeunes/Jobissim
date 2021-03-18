@@ -45,16 +45,28 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * @param int[]|int $users
+     * @param User  $user
+     * @param string|null $search
      *
      * @return User[]
      */
-    public function findAllExcept($users = [])
+    public function getChatUsers(User $user, ?string $search = null)
     {
         $qb = $this->createQueryBuilder('u');
         $qb
-            ->Where('u.id not in (:ids)')
-            ->setParameter('ids', (array) $users);
+            ->leftJoin('u.messagefrom', 'mf')
+            ->leftJoin('u.messageto', 'mt')
+            ->Where('u.id != :id')
+            ->setParameter('id', $user->getId())
+            ->orderBy('mt.createdAt', 'DESC')
+            ->addOrderBy('mf.createdAt', 'DESC')
+        ;
+
+        if (!empty($search)) {
+            $qb
+                ->andWhere('u.firstname like :search or u.lastname like :search')
+                ->setParameter('search', trim($search).'%');
+        }
 
         return $qb->getQuery()->getResult();
     }

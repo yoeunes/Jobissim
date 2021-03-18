@@ -11,7 +11,6 @@ Discussion.prototype.bindEvents = function () {
 
     setInterval(function () {
         self.loadActiveUsers();
-        self.loadActiveChat();
     }, 3000);
 
     $(document).on('click', '.usernameLink', function (event) {
@@ -54,12 +53,35 @@ Discussion.prototype.bindEvents = function () {
 
         self.markDiscussionAsRead();
     });
+
+    $('.inbox_people input[name=search]').on('keyup change', this.debounce(function (event) {
+        event.preventDefault();
+        self.loadActiveUsers();
+    }, 500));
+};
+
+Discussion.prototype.debounce = function (func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
 };
 
 Discussion.prototype.loadActiveUsers = function () {
+    var search = $('.inbox_people input[name=search]').val();
+    var self = this;
+
     axios({
         method: 'get',
-        url: '/users',
+        url: '/users?search=' + search,
         headers: { 'content-type': 'application/json' },
         responseType: 'json',
     }).then(function ({ data }) {
@@ -83,11 +105,16 @@ Discussion.prototype.loadActiveUsers = function () {
                 '                    </div>\n' +
                 '                </div>');
         });
+    }).then(function () {
+        self.loadActiveChat();
     });
 };
 
 Discussion.prototype.loadActiveChat = function () {
     var otherUser = $('.active_chat').first().attr('data-otherUser');
+    if (otherUser === undefined) {
+        return;
+    }
     var currentUserID = this.currentUser;
 
     axios({

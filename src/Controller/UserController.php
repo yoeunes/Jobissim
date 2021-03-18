@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -44,20 +45,21 @@ class UserController
 
     /**
      * @Route("/", name="chatusers")
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $user = $this->security->getUser();
 
-        if (isset($_POST['search']) && !empty($_POST['search'])) {
-            $users = $this->userRepository->search($_POST['search']);
-        }
-
-        $users = $this->userRepository->findAllExcept($user->getId());
+        $users = $this->userRepository->getChatUsers($user, $request->get('search'));
 
         $countMessage = array_column($this->messageRepository->getMessageCountForUser($user), 'messages', 'sender');
 
         $response = json_decode($this->serializer->serialize($users, 'json', ['groups' => 'public']), true);
+
         foreach ($response as $index => $user) {
             $response[$index]['countMessages'] = $countMessage[$user['id']] ?? 0;
         }
